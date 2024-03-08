@@ -46,6 +46,7 @@ enum amdxdna_drm_ioctl_id {
 	DRM_AMDXDNA_CREATE_HWCTX_UNSECURE,
 	DRM_AMDXDNA_ATTACH_BO,
 	DRM_AMDXDNA_DETACH_BO,
+	DRM_AMDXDNA_CREATE_HWCTX_LEGACY,
 	DRM_AMDXDNA_NUM_IOCTLS
 };
 
@@ -85,7 +86,7 @@ struct amdxdna_ip_name_index {
 };
 
 /**
- * struct amdxdna_drm_create_hwctx - Create hardware context.
+ * struct amdxdna_drm_create_hwctx_legacy - Create hardware context.
  * @ext: MBZ.
  * @ext_flags: MBZ.
  * @xclbin_uuid: UUID of xclbin binary.
@@ -97,7 +98,7 @@ struct amdxdna_ip_name_index {
  * @qos_size: QoS info buffer size.
  * @handle: Returned hardware context handle.
  */
-struct amdxdna_drm_create_hwctx {
+struct amdxdna_drm_create_hwctx_legacy {
 	__u64 ext;
 	__u64 ext_flags;
 	__u8  xclbin_uuid[16];
@@ -107,6 +108,34 @@ struct amdxdna_drm_create_hwctx {
 	__u64 qos_p;
 	__u32 qos_size;
 	__u32 handle;
+};
+
+/**
+ * struct amdxdna_create_hwctx - Create hardware context.
+ * @ext: MBZ.
+ * @ext_flags: MBZ.
+ * @qos_p: Address of QoS info buffer.
+ * @qos_size: QoS info buffer size.
+ * @log_p: Address of log buffer.
+ * @log_size: Log buffer size.
+ * @umq_p: User Module Queue(UMQ).
+ * @umq_doorbell: Address of doorbell register of UMQ.
+ * @max_opc: Maximum operations per cycle.
+ * @num_cols: number of columns.
+ * @handle: Returned hardware context handle.
+ */
+struct amdxdna_drm_create_hwctx {
+    __u64 ext;
+    __u64 ext_flags;
+    __u64 qos_p;
+    __u64 qos_size;
+    __u64 log_p;
+    __u64 log_size;
+    __u64 umq_p;
+    __u32 umq_doorbell;
+    __u32 max_opc;
+    __u32 num_cols;
+    __u32 handle;
 };
 
 /**
@@ -357,6 +386,27 @@ struct amdxdna_drm_sync_bo {
 };
 
 /**
+ * struct amdxdna_cu_config - CU configure info
+ * @xdna_addr: XDNA virtual address of configure memory
+ * @cu_func: Functional of CU
+ */
+struct amdxdna_cu_config {
+    __u64 xdna_addr;
+    __u8  cu_func;
+    __u8  pad[7];
+};
+
+/**
+ * struct amdxdna_config_cu_cmd - Configure CU command payload
+ * @cu_config_p: Address of CU configure info array.
+ * @cu_config_size: CU configure info array size in bytes.
+ */
+struct amdxdna_config_cu_cmd {
+    __u64 cu_config_p;
+    __u32 cu_config_size;
+};
+
+/**
  * struct amdxdna_drm_exec_cmd - Execute command.
  * @ext: MBZ.
  * @ext_flags: MBZ.
@@ -412,6 +462,10 @@ struct amdxdna_drm_attach_detach_bo {
 #define DRM_IOCTL_AMDXDNA_CREATE_HWCTX \
 	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_CREATE_HWCTX, \
 		 struct amdxdna_drm_create_hwctx)
+
+#define DRM_IOCTL_AMDXDNA_CREATE_HWCTX_LEGACY \
+	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_CREATE_HWCTX_LEGACY, \
+		 struct amdxdna_drm_create_hwctx_legacy)
 
 #define DRM_IOCTL_AMDXDNA_DESTROY_HWCTX \
 	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_DESTROY_HWCTX, \

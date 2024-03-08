@@ -14,6 +14,8 @@ namespace {
   ioctl_cmd2name(unsigned long cmd)
   {
     switch(cmd) {
+    case DRM_IOCTL_AMDXDNA_CREATE_HWCTX_LEGACY:
+      return "DRM_IOCTL_AMDXDNA_CREATE_HWCTX_LEGACY";
     case DRM_IOCTL_AMDXDNA_CREATE_HWCTX:
       return "DRM_IOCTL_AMDXDNA_CREATE_HWCTX";
     case DRM_IOCTL_AMDXDNA_DESTROY_HWCTX:

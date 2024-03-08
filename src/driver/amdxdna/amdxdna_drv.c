@@ -359,6 +359,7 @@ static const struct drm_ioctl_desc amdxdna_drm_ioctls[] = {
 	/* Context */
 	DRM_IOCTL_DEF_DRV(AMDXDNA_CREATE_HWCTX, amdxdna_drm_create_hwctx_ioctl, 0),
 	DRM_IOCTL_DEF_DRV(AMDXDNA_DESTROY_HWCTX, amdxdna_drm_destroy_hwctx_ioctl, 0),
+	DRM_IOCTL_DEF_DRV(AMDXDNA_CREATE_HWCTX_LEGACY, amdxdna_drm_create_hwctx_legacy_ioctl, 0),
 #ifdef AMDXDNA_DEVEL
 	DRM_IOCTL_DEF_DRV(AMDXDNA_CREATE_HWCTX_UNSECURE, amdxdna_drm_create_hwctx_unsec_ioctl, 0),
 #endif
