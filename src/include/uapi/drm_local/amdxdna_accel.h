@@ -111,30 +111,43 @@ struct amdxdna_drm_create_hwctx_legacy {
 };
 
 /**
+ * struct amdxdna_cu_config - configuration for one CU
+ * @xdna_addr: XDNA virtual address of configuration buffer
+ * @cu_func: Functional of a CU
+ */
+struct amdxdna_cu_config {
+    __u64 xdna_addr;
+    __u8  cu_func;
+    __u8  pad[7];
+};
+
+/**
  * struct amdxdna_create_hwctx - Create hardware context.
  * @ext: MBZ.
  * @ext_flags: MBZ.
- * @qos_p: Address of QoS info buffer.
- * @qos_size: QoS info buffer size.
- * @log_p: Address of log buffer.
+ * @qos_p: Address of QoS info.
+ * @umq_p: Address user mode queue(UMQ).
+ * @cu_conf_p: Address of CU configuration info.
+ * @log_buf_p: Address of log buffer.
+ * @num_cus: Number of CUs.
  * @log_size: Log buffer size.
- * @umq_p: User Module Queue(UMQ).
- * @umq_doorbell: Address of doorbell register of UMQ.
  * @max_opc: Maximum operations per cycle.
- * @num_cols: number of columns.
+ * @num_cols: Number of columns.
+ * @umq_doorbell: Returned offset of doorbell associated with UMQ.
  * @handle: Returned hardware context handle.
  */
 struct amdxdna_drm_create_hwctx {
     __u64 ext;
     __u64 ext_flags;
     __u64 qos_p;
-    __u64 qos_size;
-    __u64 log_p;
-    __u64 log_size;
     __u64 umq_p;
-    __u32 umq_doorbell;
+    __u64 cu_conf_p;
+    __u64 log_buf_p;
+    __u32 num_cus;
+    __u32 log_size;
     __u32 max_opc;
     __u32 num_cols;
+    __u32 umq_doorbell;
     __u32 handle;
 };
 
@@ -383,27 +396,6 @@ struct amdxdna_drm_sync_bo {
 	__u32 direction;
 	__u64 offset;
 	__u64 size;
-};
-
-/**
- * struct amdxdna_cu_config - CU configure info
- * @xdna_addr: XDNA virtual address of configure memory
- * @cu_func: Functional of CU
- */
-struct amdxdna_cu_config {
-    __u64 xdna_addr;
-    __u8  cu_func;
-    __u8  pad[7];
-};
-
-/**
- * struct amdxdna_config_cu_cmd - Configure CU command payload
- * @cu_config_p: Address of CU configure info array.
- * @cu_config_size: CU configure info array size in bytes.
- */
-struct amdxdna_config_cu_cmd {
-    __u64 cu_config_p;
-    __u32 cu_config_size;
 };
 
 /**
