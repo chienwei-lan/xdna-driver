@@ -19,7 +19,7 @@ struct partition_node {
 	struct list_head	list;
 	u32			nshared;	/* # shared requests */
 	u32			start_col;	/* start column */
-	u32			ncol;		/* # columns */
+	u32			ncols;		/* # columns */
 	bool			exclusive;	/* can not be shared if set */
 	struct aie_qos		pqos;		/* QoS Information */
 };
@@ -33,10 +33,9 @@ struct solver_node {
 	uuid_t			xclbin_uuid;
 	uuid_t			cdo_uuid;
 	u64			rid;		/* Request ID from consumer */
-	u32			noly;		/* # overlay */
-	u32			ncol;		/* # columns */
-	u32			*oly;		/* start column array */
-	u32			part;		/* selected partition */
+	u32			first_col;	/* First column can be allocated */
+	u32			ncols;		/* The width of column */
+	u32			start_col;	/* The index of column allocated */
 	struct aie_qos_cap	qos_cap;	/* CDO group QoS capabilities */
 	struct aie_qos		rqos;		/* Requested QoS */
 

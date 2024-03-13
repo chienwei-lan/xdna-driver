@@ -56,7 +56,7 @@ enum xrs_mode {
  */
 struct aie_part {
 	u32	start_col;
-	u32	ncol;
+	u32	ncols;
 };
 
 /*
@@ -100,9 +100,8 @@ struct aie_qos {
  */
 struct cdo_parts {
 	uuid_t		   *cdo_uuid;
-	u32		   nparts;		/* # of partition overlays */
+	u32		   first_col;		/* First column can be allocated */
 	u32		   ncols;		/* # of columns */
-	u32		   *start_col_list;	/* Start column array */
 	struct aie_qos_cap *qos_cap;		/* CDO QoS capabilities */
 };
 
